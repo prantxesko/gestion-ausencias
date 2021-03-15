@@ -1,23 +1,19 @@
-import logo from './logo.svg';
+import React from 'react';
 import './App.css';
+import {firebase, firestore} from './firebase'
 
 function App() {
+  const [data, setData] = React.useState();
+  React.useEffect(() => {
+    const getData = async () =>{
+      const query = await firestore.collection('011').get();
+      query.forEach(item => console.log(item.id, item.data()));
+    }
+    getData();
+  });
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>Hola mundo</h1>
     </div>
   );
 }
