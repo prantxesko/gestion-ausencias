@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import Licencias from './components/Licencias';
+import Licencias from './components/Licencias/Licencias';
 
 function App() {
   
