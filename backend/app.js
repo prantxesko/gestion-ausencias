@@ -63,6 +63,16 @@ app.delete('/licencias', async (req, res) => {
     await db.collection('licencias').doc(req.query.id).set({eliminada: true}, {merge: true})
     res.send(req.query.id);
   }catch(error){
+    console.log('error', error)
+    res.status(500).send(error);
+  }
+})
+
+app.post('/licencias/restaurar', async (req, res) => {
+  try{
+    await db.collection('licencias').doc(req.query.id).set({eliminada: false}, {merge: true})
+    res.send(req.query.id);
+  }catch(error){
     console.log('error')
     res.status(500).send(error);
   }
