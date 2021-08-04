@@ -54,6 +54,7 @@ export default function LicenciasLista(props){
                 filledIn
                 label = ""
                 id = {licencia.id}
+                value = {licencia.id}
                 checked = {false}
                 onChange = {e => console.log(e.target.checked)}
               />
@@ -86,6 +87,7 @@ export function LineaLicencia(props){
    
      <Checkbox
         filledIn
+        id = {licencia.id}
         label = {licencia.id}
         value = {licencia.id}
         checked = {false}
