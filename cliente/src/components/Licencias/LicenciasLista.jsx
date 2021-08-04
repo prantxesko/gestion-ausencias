@@ -1,7 +1,8 @@
 
 import React from 'react';
 import { deleteLicencia, restoreLicencia } from '../helpers';
-import {Table, Checkbox, Button, Icon} from 'react-materialize';
+import {Table, Checkbox, Button, Icon, Col, Row} from 'react-materialize';
+import { AutoInit } from 'materialize-css';
 
 export default function LicenciasLista(props){
   const {licencias} = props;
@@ -10,6 +11,7 @@ export default function LicenciasLista(props){
     return(
       <Button
         floating
+        small
         className = {!licencia.eliminada ? "red" : ""}
         icon={<Icon id= {licencia.id} >{licencia.eliminada ? 'restore_from_trash' : 'delete'}</Icon>}
         onClick = {handleDeleteButton}
@@ -31,8 +33,9 @@ export default function LicenciasLista(props){
     }
 
   }
+ 
   return(
-    <Table>
+    <Table className ="striped">
       <thead>
         <tr>
           <th colSpan={2}>Lista de licencias vigentes</th>
@@ -40,11 +43,18 @@ export default function LicenciasLista(props){
       </thead>
       <tbody>
           {licencias.map(licencia =>(
+            // <tr key = {licencia.id}>
+            //   <td>
+            //     <LineaLicencia licencia = {licencia}></LineaLicencia>
+            //   </td>
+            // </tr>
             <tr key = {licencia.id}>
               <td>
               <Checkbox
                 filledIn
+                label = ""
                 id = {licencia.id}
+                checked = {false}
                 onChange = {e => console.log(e.target.checked)}
               />
               </td>
@@ -59,5 +69,36 @@ export default function LicenciasLista(props){
             )}
         </tbody>
     </Table>
+  )
+}
+
+export function LineaLicencia(props){
+  const {licencia} = props;
+  const divStyle = {
+    display : 'flex',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  }
+  console.log(licencia.id)
+  return(
+  <div style = {divStyle}>
+   
+     <Checkbox
+        filledIn
+        label = {licencia.id}
+        value = {licencia.id}
+        checked = {false}
+        onChange = {e => console.log(licencia.id, e.target.checked)}
+        />
+      {licencia.descrip}{(licencia.eliminada ? ' (Eliminada)': '' ) + '\u00A0\u00A0'}
+      <Button
+        floating
+        small
+        className = {!licencia.eliminada ? "red" : ""}
+        icon={<Icon id= {licencia.id} >{licencia.eliminada ? 'restore_from_trash' : 'delete'}</Icon>}
+        
+      ></Button>
+  </div>
   )
 }

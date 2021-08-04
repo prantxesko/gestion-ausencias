@@ -25,8 +25,8 @@ app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
 
-
-app.post('/licencias', async (req, res) => {
+app.route('/licencias')
+  .post(async (req, res) => {
   console.log(req.body)
   try{
     await db.collection('licencias').doc().set(req.body);
@@ -34,39 +34,39 @@ app.post('/licencias', async (req, res) => {
     console.log(error);
   }
   res.end();
-})
+  })
+  .get(async (req, res) => {
+    const query = db.collection('licencias');
+    const result = [];
+    try {
+      await query.get().then(querySnapshot => {
+        for (let doc of querySnapshot.docs) {
+          //console.log(`Found document at ${JSON.stringify(doc.data())}`);
+          result.push({id:doc.id, ...doc.data()});
+        };
+      })
+      res.send(result);
+    }catch(error){
+      res.status(500).send(error);
+    }
+  })
+  .delete(async (req, res) => {
+    try{
+      await db.collection('licencias').doc(req.query.id).set({eliminada: true}, {merge: true})
+      res.send(req.query.id);
+    }catch(error){
+      console.log('error', error)
+      res.status(500).send(error);
+    }
+  })
 
 app.post('/test', async (req, res) => {
   //console.log(req)
   res.end();
 })
 
-app.get('/licencias', async (req, res) => {
-  const query = db.collection('licencias');
-  const result = [];
-  try {
-    await query.get().then(querySnapshot => {
-      for (let doc of querySnapshot.docs) {
-        //console.log(`Found document at ${JSON.stringify(doc.data())}`);
-        result.push({id:doc.id, ...doc.data()});
-      };
-    })
-    res.send(result);
-  }catch(error){
-    res.status(500).send(error);
-  }
  
-});
 
-app.delete('/licencias', async (req, res) => {
-  try{
-    await db.collection('licencias').doc(req.query.id).set({eliminada: true}, {merge: true})
-    res.send(req.query.id);
-  }catch(error){
-    console.log('error', error)
-    res.status(500).send(error);
-  }
-})
 
 app.post('/licencias/restaurar', async (req, res) => {
   try{
