@@ -24,8 +24,7 @@ app.use(multer().fields([]));
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 
-
-const appResponse = app.route('/licencias')
+app.route('/licencias')
   .post(async (req, res) => {
     try{
       const doc = {...req.body, activa: true}
@@ -72,13 +71,22 @@ const appResponse = app.route('/licencias')
     }
   })
 
+
+app.route('/operarios')
+.get((req, res) => {
+  try{
+    const {token }= req.query;
+  }
+})
+
+
 app.post('/test', async (req, res) => {
   //console.log(req)
   res.end();
 })
 
 
- console.log(appResponse)
+
 
 
 
