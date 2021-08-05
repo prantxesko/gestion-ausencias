@@ -1,38 +1,40 @@
 
 import React from 'react';
-import { deleteLicencia, restoreLicencia } from '../helpers';
+import { setEstadoLicencia} from '../helpers';
 import {Table, Checkbox, Button, Icon, Col, Row} from 'react-materialize';
 import { AutoInit } from 'materialize-css';
 
 export default function LicenciasLista(props){
   const {licencias} = props;
 
-  const deleteButton = licencia => {
+
+
+  const activateButton = licencia => {
+    const iconText = !licencia.activa ? 'toggle_off' : 'toggle_on';
+    const iconStyle = !licencia.activa ? {color: 'red'} : {color: '#26a69a'}
+    iconStyle.cursor = 'pointer';
+
     return(
-      <Button
-        floating
+      <Icon
+        id= {licencia.id}
         small
-        className = {!licencia.eliminada ? "red" : ""}
-        icon={<Icon id= {licencia.id} >{licencia.eliminada ? 'restore_from_trash' : 'delete'}</Icon>}
-        onClick = {handleDeleteButton}
-      ></Button>
+        style = {iconStyle}
+        onClick = {() => handleActivateButton (licencia)}
+      >{iconText}</Icon>
     )
   }
-  
-  const handleDeleteButton = async e => {
-    console.log(e.target)
+  const handleActivateButton = async licencia => {
     try{
-      if(e.target.innerText === 'delete'){
-        await deleteLicencia(e.target.id);
-      }else{
-        await restoreLicencia(e.target.id);
-      }
+      const estado = licencia.activa ? 'false' : 'true';
+      await setEstadoLicencia(licencia.id, estado);
       props.onChange();
     }catch(error){
       console.log(error)
     }
 
   }
+  
+ 
  
   return(
     <Table className ="striped">
@@ -63,8 +65,10 @@ export default function LicenciasLista(props){
                 {licencia.descrip}{(licencia.eliminada ? ' (Eliminada)': '' ) + '\u00A0\u00A0'}
               </td>
               <td>
-                {deleteButton(licencia)}
+                {/* {deleteButton(licencia)} */}
+                {activateButton(licencia)}
               </td>
+              
             </tr>
             ) 
             )}
@@ -81,7 +85,10 @@ export function LineaLicencia(props){
     justifyContent: 'space-between',
     alignItems: 'center',
   }
-  console.log(licencia.id)
+  const iconText = !licencia.activa ? 'toggle_off' : 'toggle_on';
+  const iconStyle = !licencia.activa ? {color: 'red'} : {color: '#26a69a'}
+  iconStyle.cursor = 'pointer';
+  // console.log(licencia.id)
   return(
   <div style = {divStyle}>
    
@@ -94,13 +101,11 @@ export function LineaLicencia(props){
         onChange = {e => console.log(licencia.id, e.target.checked)}
         />
       {licencia.descrip}{(licencia.eliminada ? ' (Eliminada)': '' ) + '\u00A0\u00A0'}
-      <Button
-        floating
+      <Icon
+        id= {licencia.id}
         small
-        className = {!licencia.eliminada ? "red" : ""}
-        icon={<Icon id= {licencia.id} >{licencia.eliminada ? 'restore_from_trash' : 'delete'}</Icon>}
-        
-      ></Button>
+        style = {iconStyle}
+      >{iconText}</Icon>
   </div>
   )
 }

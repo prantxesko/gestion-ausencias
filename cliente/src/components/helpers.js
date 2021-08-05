@@ -2,6 +2,9 @@ import axios from 'axios';
 
 const urlBase = 'http://localhost:8080/'; //Para modificar en producción;
 
+
+
+
 export const getLicencias = async ()=>{
   console.log('Obteniendo licencias')
   try{
@@ -29,27 +32,18 @@ export const createLicencia = async data =>{
   
 }
 
-export const deleteLicencia = async id => {
+export const setEstadoLicencia = async (id, activa = 'true') => {
   try{
     await axios({
-      method: "delete",
-      url: `${urlBase}licencias?id=${id}`,
+      method: "put",
+      url: `${urlBase}licencias?id=${id}&activa=${activa}`,
     })
   }catch(error){
     throw new Error(error);    
   } 
 }
 
-export const restoreLicencia = async id => {
-  try{
-    await axios({
-      method: "post",
-      url: `${urlBase}licencias/restaurar?id=${id}`,
-    })
-  }catch(error){
-    throw new Error(error);    
-  } 
-}
+
 
 
 
