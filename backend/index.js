@@ -3,7 +3,7 @@
 
 const firebase = require('firebase');
 require('firebase/firestore');
-const {firebaseConfig} = require('../firebase.js');
+const {firebaseConfig} = require('./firebaseConfig.js');
 
 //console.log(firebaseConfig)
 firebase.initializeApp(firebaseConfig);
@@ -71,13 +71,17 @@ app.route('/licencias')
     }
   })
 
+  //Para testeo
+  app.get('/', (req, res) => {
+    res.status(404).send('Ruta no disponible')
+  })
 
-app.route('/operarios')
-.get((req, res) => {
-  try{
-    const {token }= req.query;
-  }
-})
+// app.route('/operarios')
+// .get((req, res) => {
+//   try{
+//     const {token }= req.query;
+//   }
+// })
 
 
 app.post('/test', async (req, res) => {

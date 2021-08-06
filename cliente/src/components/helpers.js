@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-const urlBase = 'http://localhost:8080/'; //Para modificar en producción;
+//const urlBase = 'http://localhost:8080/'; //Para modificar en producción;
+const urlBase = 'https://backend-dot-gestion-ausencias-2.oa.r.appspot.com/'; //Para modificar en producción;
 
 
 
