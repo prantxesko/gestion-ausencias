@@ -1,4 +1,6 @@
 firebaseConfig.js
+expertisAPI.js
+.env
 
 # dependencies
 node_modules/

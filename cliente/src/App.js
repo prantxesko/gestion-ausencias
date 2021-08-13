@@ -8,7 +8,7 @@ function App() {
  
   return (
     <div className="App container">
-        <Licencias style = {{zIndex: '-10000'}}/>
+      <Licencias style = {{zIndex: '-10000'}}/>
     </div>
   );
 }
